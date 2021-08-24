@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import Login from "./components/auth/login";
+import Signup from "./components/auth/signup";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Home from "./components/home";
+import { BrowserRouter, Switch } from "react-router-dom";
+import PublicRoute from "./routes/publicRoute";
+// import PrivateRoute from "./routes/privateRoute";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <PublicRoute restricted={false} component={Home} path="/" exact />
+        <PublicRoute restricted={true} component={Login} path="/signin" exact />
+        <PublicRoute
+          restricted={true}
+          component={Signup}
+          path="/signup"
+          exact
+        />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

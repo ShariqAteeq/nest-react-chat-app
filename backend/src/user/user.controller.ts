@@ -1,7 +1,13 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { LoginUserInput, SignUpUserInput, UserI } from 'src/models';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  LoginResponse,
+  LoginUserInput,
+  SignUpUserInput,
+  UserI,
+} from 'src/models';
 import { UserService } from './user.service';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('user')
 export class UserController {
@@ -13,10 +19,18 @@ export class UserController {
   }
 
   @Post('login')
-  async login(@Body() input: LoginUserInput): Promise<UserI> {
-    return await this.userService.login(input);
+  async login(@Body() input: LoginUserInput): Promise<LoginResponse> {
+    let token = await this.userService.login(input);
+    const payload: LoginResponse = {
+      access_token: token,
+      type: 'JWT',
+      expires: 10000,
+    };
+
+    return payload;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(
     @Query('page') page: number = 1,

@@ -20,9 +20,11 @@ const models_1 = require("../models");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
 const nestjs_typeorm_paginate_1 = require("nestjs-typeorm-paginate");
+const auth_service_1 = require("../auth/services/auth.service");
 let UserService = class UserService {
-    constructor(userRepo) {
+    constructor(userRepo, authService) {
         this.userRepo = userRepo;
+        this.authService = authService;
     }
     async create(input) {
         const { email, password, username } = input;
@@ -44,7 +46,7 @@ let UserService = class UserService {
             throw new common_1.HttpException('User not found!', common_1.HttpStatus.BAD_REQUEST);
         }
         if (await bcrypt.compare(password, user.password)) {
-            return user;
+            return this.authService.generateJWT(user);
         }
         else {
             throw new common_1.HttpException('Invalid Password', common_1.HttpStatus.NOT_FOUND);
@@ -57,7 +59,8 @@ let UserService = class UserService {
 UserService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(user_1.UserEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        auth_service_1.AuthService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

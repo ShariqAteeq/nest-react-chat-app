@@ -10,9 +10,14 @@ export class LoginUserInput {
 }
 
 export class UserI {
-    id?: number;
-    username?: string;
-    email: string;
-    password?: string;
-  }
-  
+  id?: number;
+  username?: string;
+  email: string;
+  password?: string;
+}
+
+export class LoginResponse {
+  access_token: string;
+  type: string;
+  expires: number;
+}

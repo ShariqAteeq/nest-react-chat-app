@@ -9,12 +9,14 @@ import {
   paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
+import { AuthService } from 'src/auth/services/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
+    private authService: AuthService,
   ) {}
 
   async create(input: SignUpUserInput): Promise<UserI> {
@@ -40,7 +42,7 @@ export class UserService {
     return resp;
   }
 
-  async login(input: LoginUserInput): Promise<UserI> {
+  async login(input: LoginUserInput): Promise<string> {
     const { email, password } = input;
 
     const user = await this.userRepo.findOne(
@@ -53,7 +55,7 @@ export class UserService {
     }
 
     if (await bcrypt.compare(password, user.password)) {
-      return user;
+      return this.authService.generateJWT(user);
     } else {
       throw new HttpException('Invalid Password', HttpStatus.NOT_FOUND);
     }

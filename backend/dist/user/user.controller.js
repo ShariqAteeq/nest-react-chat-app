@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const models_1 = require("../models");
 const user_service_1 = require("./user.service");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -24,7 +25,13 @@ let UserController = class UserController {
         return await this.userService.create(sinUpUserInput);
     }
     async login(input) {
-        return await this.userService.login(input);
+        let token = await this.userService.login(input);
+        const payload = {
+            access_token: token,
+            type: 'JWT',
+            expires: 10000,
+        };
+        return payload;
     }
     async findAll(page = 1, limit = 10) {
         limit = limit > 100 ? 100 : limit;
@@ -49,6 +56,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "login", null);
 __decorate([
+    common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
     common_1.Get(),
     __param(0, common_1.Query('page')),
     __param(1, common_1.Query('limit')),
