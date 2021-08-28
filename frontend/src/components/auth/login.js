@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signin } from "../../utils/authservices";
-import { errorResponse } from "../../utils/helper";
+import { errorResponse, ThemeContext } from "../../utils/helper";
 import { setCookies } from "../../utils/manageCookies";
 import "./auth.css";
 
 const Login = () => {
   const [loader, setLoader] = useState(false);
-  const history = useHistory();
 
+  const { setToken } = useContext(ThemeContext);
 
   const signInHandler = async (values) => {
     setLoader(true);
@@ -19,6 +19,7 @@ const Login = () => {
       const { data } = await signin(email, password);
       const { access_token } = data;
       setCookies(access_token);
+      setToken(access_token);
       toast.success("Login Successfully!");
       setLoader(false);
       window.location.reload();

@@ -3,53 +3,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import Routes from "./routes";
-import { useEffect, useState } from "react";
-import { errorResponse, ThemeContext } from "./utils/helper";
-import {
-  getCookie,
-  clearCookies,
-  getJwtDecoded,
-  checkTokenExpiration,
-} from "./utils/manageCookies";
-import { useHistory } from "react-router-dom";
+import { ThemeContext } from "./utils/helper";
+
+import useFindUser from "./components/hooks/useFindUser";
 
 axios.defaults.baseURL = "http://localhost:3000/";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-
-  const history = useHistory();
-
-  const getUser = async (id) => {
-    try {
-      const { data } = await axios.get(`/api/user/${id}`);
-      return data;
-    } catch (error) {
-      errorResponse(error);
-    }
-  };
-
-  const isAuthenticated = async () => {
-    const jwt = getCookie("access_token");
-    let decodedToken = "";
-    if (jwt) {
-      decodedToken = getJwtDecoded(jwt);
-      if (checkTokenExpiration(decodedToken.exp)) {
-        clearCookies(setUser);
-      } else {
-        let res = await getUser(decodedToken?.user?.id);
-        setUser(res);
-        history.push("/");
-      }
-    }
-  }
-
-  useEffect(() => {
-    isAuthenticated();
-  }, [history]);
+  const { user, setUser, isLoading, setToken } = useFindUser();
 
   return (
-    <ThemeContext.Provider value={{ user, setUser }}>
+    <ThemeContext.Provider value={{ user, setUser, isLoading, setToken }}>
       <Routes />
       <Toaster />
     </ThemeContext.Provider>

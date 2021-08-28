@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { ThemeContext } from '../utils/helper';
 // import { isLogin } from '../utils';
 
 const PublicRoute = ({component: Component, restricted, ...rest}) => {
+
+    const { user } = useContext(ThemeContext);
+
     return (
         <Route {...rest} render={props => (
-            false && restricted ?
+            user && restricted ?
                 <Redirect to="/" />
             : <Component {...props} />
         )} />
