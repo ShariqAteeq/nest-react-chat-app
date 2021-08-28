@@ -2,42 +2,25 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./auth.css";
 import { Form, Formik } from "formik";
+import toast from "react-hot-toast";
+import { errorResponse } from "../../utils/helper";
 import { signup } from "../../utils/authservices";
-import axios from "axios";
 
 const Signup = () => {
   const [loader, setLoader] = useState(false);
 
-  const registerHandler = (values) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+  const registerHandler = async (values) => {
 
-    // try {
     setLoader(true);
     const { username, email, password } = values;
-    //   console.log("vl", values);
-    //   let data = await signup(username, email, password);
-    //   console.log("data", data);
-    //   setLoader(false);
-    // } catch (error) {
-    //   console.log("Err", error)
-    // }
-    axios
-      .post("/api/user", { username, email, password }, config)
-      .catch((err) => console.log("E", err));
-
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: { username, email, password },
-    };
-    fetch("/api/user", requestOptions)
-      .then((response) => response.json())
-      .catch((err) => console.log(err));
-    setLoader(false);
+    try {
+      await signup(username, email, password);
+      toast.success("Successfully Registered!");
+      setLoader(false);
+    } catch (error) {
+      errorResponse(error);
+      setLoader(false);
+    }
   };
 
   return (
@@ -52,7 +35,7 @@ const Signup = () => {
               <Form>
                 <h3>Register</h3>
                 <div className="form-group">
-                  <label>Name</label>
+                  <label>Full Name</label>
                   <input
                     type="text"
                     className="form-control"

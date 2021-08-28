@@ -1,25 +1,17 @@
-import Login from "./components/auth/login";
-import Signup from "./components/auth/signup";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./components/home";
-import { BrowserRouter, Switch } from "react-router-dom";
-import PublicRoute from "./routes/publicRoute";
-// import PrivateRoute from "./routes/privateRoute";
+
+import { Toaster } from "react-hot-toast";
+import axios from "axios";
+import Routes from "./routes";
+
+axios.defaults.baseURL = "http://localhost:3000/";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <PublicRoute restricted={false} component={Home} path="/" exact />
-        <PublicRoute restricted={true} component={Login} path="/signin" exact />
-        <PublicRoute
-          restricted={true}
-          component={Signup}
-          path="/signup"
-          exact
-        />
-      </Switch>
-    </BrowserRouter>
+    <>
+      <Routes />
+      <Toaster />
+    </>
   );
 }
 

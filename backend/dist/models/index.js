@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginResponse = exports.UserI = exports.LoginUserInput = exports.SignUpUserInput = void 0;
+exports.ErrorResponse = exports.LoginResponse = exports.UserI = exports.LoginUserInput = exports.SignUpUserInput = void 0;
 class SignUpUserInput {
 }
 exports.SignUpUserInput = SignUpUserInput;
@@ -13,4 +13,7 @@ exports.UserI = UserI;
 class LoginResponse {
 }
 exports.LoginResponse = LoginResponse;
+class ErrorResponse {
+}
+exports.ErrorResponse = ErrorResponse;
 //# sourceMappingURL=index.js.map

@@ -30,7 +30,7 @@ let UserService = class UserService {
         const { email, password, username } = input;
         const existingUser = await this.userRepo.findOne({ email });
         if (existingUser) {
-            throw new common_1.HttpException('User with this email already exist!', common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException('User with this email already exist!', 400);
         }
         const user = new user_1.UserEntity();
         user.password = await bcrypt.hash(password, 10);

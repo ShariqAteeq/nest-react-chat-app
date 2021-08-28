@@ -21,3 +21,8 @@ export class LoginResponse {
   type: string;
   expires: number;
 }
+
+export class ErrorResponse {
+  status: number;
+  message: string;
+}
