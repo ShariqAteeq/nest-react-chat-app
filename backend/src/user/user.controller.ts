@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   LoginResponse,
   LoginUserInput,
@@ -31,7 +39,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('all_user')
   async findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
@@ -42,5 +50,10 @@ export class UserController {
       limit,
       //   route: 'http://localhost:3000/api/user',
     });
+  }
+
+  @Get(':id')
+  async getUser(@Param('id') id: String ): Promise<UserI> {
+    return await this.userService.findOne(Number(id));
   }
 }

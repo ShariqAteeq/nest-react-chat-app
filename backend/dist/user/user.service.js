@@ -55,6 +55,15 @@ let UserService = class UserService {
     async findAll(options) {
         return await nestjs_typeorm_paginate_1.paginate(this.userRepo, options);
     }
+    async findOne(id) {
+        const user = await this.userRepo.findOne({ id });
+        if (user) {
+            return user;
+        }
+        else {
+            throw new common_1.HttpException('User not found!', common_1.HttpStatus.NOT_FOUND);
+        }
+    }
 };
 UserService = __decorate([
     common_1.Injectable(),

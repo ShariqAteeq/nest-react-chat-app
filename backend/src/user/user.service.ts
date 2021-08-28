@@ -25,10 +25,7 @@ export class UserService {
     const existingUser = await this.userRepo.findOne({ email });
 
     if (existingUser) {
-      throw new HttpException(
-        'User with this email already exist!',
-        400,
-      );
+      throw new HttpException('User with this email already exist!', 400);
     }
 
     const user: UserEntity = new UserEntity();
@@ -63,5 +60,14 @@ export class UserService {
 
   async findAll(options: IPaginationOptions): Promise<Pagination<UserI>> {
     return await paginate<UserEntity>(this.userRepo, options);
+  }
+
+  async findOne(id: number): Promise<UserI> {
+    const user = await this.userRepo.findOne({ id });
+    if (user) {
+      return user;
+    } else {
+      throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
+    }
   }
 }

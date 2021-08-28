@@ -7,4 +7,5 @@ export declare class UserController {
     signUp(sinUpUserInput: SignUpUserInput): Promise<UserI>;
     login(input: LoginUserInput): Promise<LoginResponse>;
     findAll(page?: number, limit?: number): Promise<Pagination<UserI>>;
+    getUser(id: String): Promise<UserI>;
 }

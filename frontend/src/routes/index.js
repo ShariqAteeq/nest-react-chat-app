@@ -4,12 +4,13 @@ import PublicRoute from "./publicRoute";
 import Home from "../components/home";
 import Login from "../components/auth/login";
 import Signup from "../components/auth/signup";
+import PrivateRoute from "./privateRoute";
 
 const Routes = () => {
   return (
     <div>
       <Switch>
-        <PublicRoute restricted={false} component={Home} path="/" exact />
+        <PrivateRoute restricted={false} component={Home} path="/" exact />
         <PublicRoute restricted={true} component={Login} path="/signin" exact />
         <PublicRoute
           restricted={true}

@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
-// import { isLogin } from "../utils";
+import { ThemeContext } from "../utils/helper";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
+
+  const { user } = useContext(ThemeContext);
   return (
-    // Show the component only when the user is logged in
-    // Otherwise, redirect the user to /signin page
     <Route
       {...rest}
       render={(props) =>
-        true ? <Component {...props} /> : <Redirect to="/signin" />
+        user ? <Component {...props} /> : <Redirect to="/signin" />
       }
     />
   );

@@ -1,21 +1,16 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-
-import { Toaster } from "react-hot-toast";
+import React, { useEffect, useState } from "react";
+import { ThemeContext } from "../../utils/helper";
 import axios from "axios";
-import Routes from "./routes";
-import { useEffect, useState } from "react";
-import { errorResponse, ThemeContext } from "./utils/helper";
+import { errorResponse } from "../../utils/helper";
 import {
   getCookie,
   clearCookies,
   getJwtDecoded,
   checkTokenExpiration,
-} from "./utils/manageCookies";
-import { useHistory } from "react-router-dom";
+} from "../../utils/manageCookies";
+import { Redirect, useHistory } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:3000/";
-
-const App = () => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const history = useHistory();
@@ -29,7 +24,7 @@ const App = () => {
     }
   };
 
-  const isAuthenticated = async () => {
+  async function _getJwtToken() {
     const jwt = getCookie("access_token");
     let decodedToken = "";
     if (jwt) {
@@ -39,21 +34,23 @@ const App = () => {
       } else {
         let res = await getUser(decodedToken?.user?.id);
         setUser(res);
-        history.push("/");
       }
     }
   }
 
   useEffect(() => {
-    isAuthenticated();
+     _getJwtToken();
   }, [history]);
 
   return (
     <ThemeContext.Provider value={{ user, setUser }}>
-      <Routes />
-      <Toaster />
+    {(() => {
+      if(user) {
+        <Redirect to = "/" />
+      }
+    })()} 
     </ThemeContext.Provider>
   );
 };
 
-export default App;
+export default AuthProvider;

@@ -40,6 +40,9 @@ let UserController = class UserController {
             limit,
         });
     }
+    async getUser(id) {
+        return await this.userService.findOne(Number(id));
+    }
 };
 __decorate([
     common_1.Post(),
@@ -57,13 +60,20 @@ __decorate([
 ], UserController.prototype, "login", null);
 __decorate([
     common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
-    common_1.Get(),
+    common_1.Get('all_user'),
     __param(0, common_1.Query('page')),
     __param(1, common_1.Query('limit')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
+__decorate([
+    common_1.Get(':id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUser", null);
 UserController = __decorate([
     common_1.Controller('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

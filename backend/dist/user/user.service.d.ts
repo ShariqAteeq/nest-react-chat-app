@@ -10,4 +10,5 @@ export declare class UserService {
     create(input: SignUpUserInput): Promise<UserI>;
     login(input: LoginUserInput): Promise<string>;
     findAll(options: IPaginationOptions): Promise<Pagination<UserI>>;
+    findOne(id: number): Promise<UserI>;
 }

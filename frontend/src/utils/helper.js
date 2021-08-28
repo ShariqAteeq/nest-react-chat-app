@@ -1,4 +1,7 @@
+import { createContext } from "react";
 import toast from "react-hot-toast";
+
+const ThemeContext = createContext();
 
 const errorResponse = (error) => {
     if (error.response) {
@@ -21,5 +24,6 @@ const errorResponse = (error) => {
 }
 
 export {
-    errorResponse
+    errorResponse,
+    ThemeContext
 }
