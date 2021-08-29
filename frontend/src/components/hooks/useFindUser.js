@@ -23,7 +23,8 @@ export default function useFindUser() {
 
   useEffect(() => {
     async function findUser() {
-      let jwt = getCookie("access_token") || token;
+      let jwt = getCookie("access_token");
+      setToken(jwt);
       let decodedToken = "";
       if (jwt) {
         decodedToken = getJwtDecoded(jwt);
@@ -45,5 +46,6 @@ export default function useFindUser() {
     setUser,
     isLoading,
     setToken,
+    token
   };
 }
