@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { RoomEntity } from './room';
 
 @Entity('User')
 export class UserEntity {
@@ -10,6 +11,9 @@ export class UserEntity {
 
   @Column({ unique: true })
   email: string;
+
+  @ManyToMany(() => RoomEntity, (room) => room.users)
+  rooms: RoomEntity[];
 
   @Column({ select: false }) // dont get password by query directly
   password: string;

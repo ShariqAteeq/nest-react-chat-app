@@ -9,33 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserEntity = void 0;
+exports.RoomEntity = void 0;
 const typeorm_1 = require("typeorm");
-const room_1 = require("./room");
-let UserEntity = class UserEntity {
+const user_1 = require("./user");
+let RoomEntity = class RoomEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], UserEntity.prototype, "id", void 0);
+], RoomEntity.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], UserEntity.prototype, "username", void 0);
+], RoomEntity.prototype, "name", void 0);
 __decorate([
-    typeorm_1.Column({ unique: true }),
+    typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
-], UserEntity.prototype, "email", void 0);
+], RoomEntity.prototype, "description", void 0);
 __decorate([
-    typeorm_1.ManyToMany(() => room_1.RoomEntity, (room) => room.users),
+    typeorm_1.ManyToMany(() => user_1.UserEntity),
+    typeorm_1.JoinTable(),
     __metadata("design:type", Array)
-], UserEntity.prototype, "rooms", void 0);
+], RoomEntity.prototype, "users", void 0);
 __decorate([
-    typeorm_1.Column({ select: false }),
-    __metadata("design:type", String)
-], UserEntity.prototype, "password", void 0);
-UserEntity = __decorate([
-    typeorm_1.Entity('User')
-], UserEntity);
-exports.UserEntity = UserEntity;
-//# sourceMappingURL=user.js.map
+    typeorm_1.CreateDateColumn(),
+    __metadata("design:type", Date)
+], RoomEntity.prototype, "createdAt", void 0);
+__decorate([
+    typeorm_1.UpdateDateColumn(),
+    __metadata("design:type", Date)
+], RoomEntity.prototype, "updatedAt", void 0);
+RoomEntity = __decorate([
+    typeorm_1.Entity('room')
+], RoomEntity);
+exports.RoomEntity = RoomEntity;
+//# sourceMappingURL=room.js.map

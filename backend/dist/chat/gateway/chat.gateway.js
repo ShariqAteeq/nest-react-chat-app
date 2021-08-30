@@ -13,18 +13,32 @@ exports.ChatGateway = void 0;
 const common_1 = require("@nestjs/common");
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
+const auth_service_1 = require("../../auth/services/auth.service");
+const user_service_1 = require("../../user/user.service");
+const room_service_1 = require("../services/room/room.service");
 let ChatGateway = class ChatGateway {
-    constructor() {
-        this.title = [];
+    constructor(authService, userService, roomService) {
+        this.authService = authService;
+        this.userService = userService;
+        this.roomService = roomService;
     }
     handleMessage(client, payload) {
         this.server.emit('message', 'test');
     }
     async handleConnection(socket) {
+        var _a, _b, _c;
         console.log('on connect');
         try {
-            this.title.push('value ' + Math.random().toString());
-            this.server.emit('message', this.title);
+            const decodedToken = await this.authService.verifyJwt((_b = (_a = socket === null || socket === void 0 ? void 0 : socket.handshake) === null || _a === void 0 ? void 0 : _a.auth) === null || _b === void 0 ? void 0 : _b.token);
+            const user = await this.userService.findOne((_c = decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.user) === null || _c === void 0 ? void 0 : _c.id);
+            if (!user) {
+                return this.disconnect(socket);
+            }
+            else {
+                socket.data.user = user;
+                const rooms = await this.roomService.getRoomsForUsers(user.id);
+                return this.server.to(socket.id).emit('rooms', rooms);
+            }
         }
         catch (error) {
             console.log(error, 'error');
@@ -53,7 +67,10 @@ __decorate([
 ChatGateway = __decorate([
     websockets_1.WebSocketGateway({
         cors: { origin: ['https://hoppscotch.io', 'http://localhost:3001'] },
-    })
+    }),
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        user_service_1.UserService,
+        room_service_1.RoomService])
 ], ChatGateway);
 exports.ChatGateway = ChatGateway;
 //# sourceMappingURL=chat.gateway.js.map

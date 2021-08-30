@@ -20,6 +20,9 @@ let AuthService = class AuthService {
     async generateJWT(user) {
         return await this.jwtService.signAsync({ user });
     }
+    verifyJwt(jwt) {
+        return this.jwtService.verifyAsync(jwt);
+    }
 };
 AuthService = __decorate([
     common_1.Injectable(),

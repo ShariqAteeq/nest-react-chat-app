@@ -4,4 +4,5 @@ export declare class AuthService {
     private readonly jwtService;
     constructor(jwtService: JwtService);
     generateJWT(user: UserI): Promise<string>;
+    verifyJwt(jwt: string): Promise<any>;
 }

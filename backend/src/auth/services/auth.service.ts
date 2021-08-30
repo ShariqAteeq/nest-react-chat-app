@@ -9,4 +9,8 @@ export class AuthService {
   async generateJWT(user: UserI): Promise<string> {
     return await this.jwtService.signAsync({ user });
   }
+
+  verifyJwt(jwt: string): Promise<any> {
+    return this.jwtService.verifyAsync(jwt);
+  }
 }

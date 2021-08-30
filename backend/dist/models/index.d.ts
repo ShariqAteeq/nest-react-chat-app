@@ -22,3 +22,11 @@ export declare class ErrorResponse {
     status: number;
     message: string;
 }
+export declare class RoomI {
+    id?: number;
+    name?: string;
+    description?: string;
+    users?: UserI[];
+    createdAt?: Date;
+    updatedAt?: Date;
+}
