@@ -45,6 +45,7 @@ const Home = () => {
       socket.off("rooms");
     };
   }, [socket]);
+  console.log("rooms", rooms);
 
   return (
     <div>

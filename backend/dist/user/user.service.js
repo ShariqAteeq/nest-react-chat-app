@@ -64,6 +64,14 @@ let UserService = class UserService {
             throw new common_1.HttpException('User not found!', common_1.HttpStatus.NOT_FOUND);
         }
     }
+    async findAllByUsername(username) {
+        console.log(username);
+        return this.userRepo.find({
+            where: {
+                username: typeorm_2.Like(`%${username}%`),
+            },
+        });
+    }
 };
 UserService = __decorate([
     common_1.Injectable(),

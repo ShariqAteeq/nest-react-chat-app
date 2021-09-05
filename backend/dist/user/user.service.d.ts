@@ -11,4 +11,5 @@ export declare class UserService {
     login(input: LoginUserInput): Promise<string>;
     findAll(options: IPaginationOptions): Promise<Pagination<UserI>>;
     findOne(id: number): Promise<UserI>;
+    findAllByUsername(username: String): Promise<UserI[]>;
 }

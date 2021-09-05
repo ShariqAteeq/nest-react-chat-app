@@ -8,4 +8,5 @@ export declare class UserController {
     login(input: LoginUserInput): Promise<LoginResponse>;
     findAll(page?: number, limit?: number): Promise<Pagination<UserI>>;
     getUser(id: String): Promise<UserI>;
+    findAllByUsername(username: string): Promise<UserI[]>;
 }

@@ -27,10 +27,13 @@ export class RoomService {
       .createQueryBuilder('room')
       .leftJoin('room.users', 'user')
       .where('user.id = :userId', { userId })
+      .leftJoinAndSelect('room.users', 'all_users')
+      .orderBy('room.updatedAt', 'DESC')
       .getMany();
 
     return query;
   }
+
   // async getRoomsForUsers(
   //   userId: number,
   //   options: IPaginationOptions,

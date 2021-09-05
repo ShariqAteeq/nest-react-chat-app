@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user';
 import { LoginUserInput, SignUpUserInput, UserI } from 'src/models';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import {
   IPaginationOptions,
@@ -69,5 +69,14 @@ export class UserService {
     } else {
       throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
     }
+  }
+
+  async findAllByUsername(username: String): Promise<UserI[]> {
+    console.log(username);
+    return this.userRepo.find({
+      where: {
+        username: Like(`%${username}%`),
+      },
+    });
   }
 }

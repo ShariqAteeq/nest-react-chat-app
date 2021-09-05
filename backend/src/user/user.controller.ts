@@ -52,8 +52,16 @@ export class UserController {
     });
   }
 
-  @Get(':id')
-  async getUser(@Param('id') id: String ): Promise<UserI> {
+  @Get('/get_one/:id')
+  async getUser(@Param('id') id: String): Promise<UserI> {
     return await this.userService.findOne(Number(id));
+  }
+
+  @Get('/find-by')
+  async findAllByUsername(
+    @Query('username') username: string,
+  ): Promise<UserI[]> {
+    console.log(username);
+    return this.userService.findAllByUsername(username);
   }
 }

@@ -43,6 +43,10 @@ let UserController = class UserController {
     async getUser(id) {
         return await this.userService.findOne(Number(id));
     }
+    async findAllByUsername(username) {
+        console.log(username);
+        return this.userService.findAllByUsername(username);
+    }
 };
 __decorate([
     common_1.Post(),
@@ -68,12 +72,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
 __decorate([
-    common_1.Get(':id'),
+    common_1.Get('/get_one/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUser", null);
+__decorate([
+    common_1.Get('/find-by'),
+    __param(0, common_1.Query('username')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "findAllByUsername", null);
 UserController = __decorate([
     common_1.Controller('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
