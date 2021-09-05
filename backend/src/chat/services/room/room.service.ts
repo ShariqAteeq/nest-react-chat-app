@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 import { RoomEntity } from 'src/entities/room';
 import { RoomI, UserI } from 'src/models';
 import { Repository } from 'typeorm';
@@ -13,18 +18,30 @@ export class RoomService {
 
   async createRoom(room: RoomI, creator: UserI): Promise<RoomI> {
     const newRoom = await this.addCreatorToRoom(room, creator);
+    console.log('newRoom', newRoom);
     return this.roomRepo.save(newRoom);
   }
 
   async getRoomsForUsers(userId: number): Promise<RoomI[]> {
     const query = await this.roomRepo
       .createQueryBuilder('room')
-      .leftJoin('room:users', 'user')
+      .leftJoin('room.users', 'user')
       .where('user.id = :userId', { userId })
       .getMany();
 
     return query;
   }
+  // async getRoomsForUsers(
+  //   userId: number,
+  //   options: IPaginationOptions,
+  // ): Promise<Pagination<RoomI>> {
+  //   const query = await this.roomRepo
+  //     .createQueryBuilder('room')
+  //     .leftJoin('room.users', 'user')
+  //     .where('user.id = :userId', { userId });
+
+  //   return paginate(query, options);
+  // }
 
   async addCreatorToRoom(room: RoomI, creator: UserI): Promise<RoomI> {
     room.users.push(creator);

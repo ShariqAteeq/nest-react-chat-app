@@ -24,12 +24,13 @@ let RoomService = class RoomService {
     }
     async createRoom(room, creator) {
         const newRoom = await this.addCreatorToRoom(room, creator);
+        console.log('newRoom', newRoom);
         return this.roomRepo.save(newRoom);
     }
     async getRoomsForUsers(userId) {
         const query = await this.roomRepo
             .createQueryBuilder('room')
-            .leftJoin('room:users', 'user')
+            .leftJoin('room.users', 'user')
             .where('user.id = :userId', { userId })
             .getMany();
         return query;

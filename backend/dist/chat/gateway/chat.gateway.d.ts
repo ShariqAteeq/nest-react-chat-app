@@ -1,6 +1,7 @@
 import { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { AuthService } from 'src/auth/services/auth.service';
+import { RoomI } from 'src/models';
 import { UserService } from 'src/user/user.service';
 import { RoomService } from '../services/room/room.service';
 export declare class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -13,4 +14,5 @@ export declare class ChatGateway implements OnGatewayConnection, OnGatewayDiscon
     handleConnection(socket: Socket): Promise<boolean | void>;
     handleDisconnect(socket: Socket): void;
     private disconnect;
+    onCreateRoom(socket: Socket, room: RoomI): Promise<RoomI>;
 }

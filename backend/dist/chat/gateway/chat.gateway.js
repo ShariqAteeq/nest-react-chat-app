@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const auth_service_1 = require("../../auth/services/auth.service");
+const models_1 = require("../../models");
 const user_service_1 = require("../../user/user.service");
 const room_service_1 = require("../services/room/room.service");
 let ChatGateway = class ChatGateway {
@@ -36,6 +37,7 @@ let ChatGateway = class ChatGateway {
             }
             else {
                 socket.data.user = user;
+                console.log("user", user);
                 const rooms = await this.roomService.getRoomsForUsers(user.id);
                 return this.server.to(socket.id).emit('rooms', rooms);
             }
@@ -53,6 +55,9 @@ let ChatGateway = class ChatGateway {
         socket.emit('Error', new common_1.UnauthorizedException());
         socket.disconnect();
     }
+    async onCreateRoom(socket, room) {
+        return this.roomService.createRoom(room, socket.data.user);
+    }
 };
 __decorate([
     websockets_1.WebSocketServer(),
@@ -64,6 +69,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], ChatGateway.prototype, "handleMessage", null);
+__decorate([
+    websockets_1.SubscribeMessage('createRoom'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, models_1.RoomI]),
+    __metadata("design:returntype", Promise)
+], ChatGateway.prototype, "onCreateRoom", null);
 ChatGateway = __decorate([
     websockets_1.WebSocketGateway({
         cors: { origin: ['https://hoppscotch.io', 'http://localhost:3001'] },
