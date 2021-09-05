@@ -14,7 +14,7 @@ export default function useFindUser() {
 
   const getUser = async (id) => {
     try {
-      const { data } = await axios.get(`/api/user/${id}`);
+      const { data } = await axios.get(`/api/user/get_one/${id}`);
       return data;
     } catch (error) {
       errorResponse(error);
