@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { ThemeContext } from '../utils/helper';
-// import { isLogin } from '../utils';
 
 const PublicRoute = ({component: Component, restricted, ...rest}) => {
 

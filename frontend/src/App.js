@@ -6,6 +6,7 @@ import Routes from "./routes";
 import { ThemeContext } from "./utils/helper";
 import useFindUser from "./components/hooks/useFindUser";
 import { io } from "socket.io-client";
+import { NavBar } from "./components/Navbar";
 
 axios.defaults.baseURL = "http://localhost:3000/";
 
@@ -15,8 +16,7 @@ const App = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    
-    if(user) {
+    if (user) {
       const newSocket = io(`http://localhost:3000`, { auth: { token } });
       setSocket(newSocket);
       return () => newSocket.close();
@@ -24,7 +24,10 @@ const App = () => {
   }, [setSocket, user]);
 
   return (
-    <ThemeContext.Provider value={{ user, setUser, isLoading, setToken, socket }}>
+    <ThemeContext.Provider
+      value={{ user, setUser, isLoading, setToken, socket }}
+    >
+      {user && <NavBar />}
       <Routes />
       <Toaster />
     </ThemeContext.Provider>

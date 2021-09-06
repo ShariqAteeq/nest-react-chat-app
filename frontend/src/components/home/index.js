@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../utils/helper";
-import { clearCookies } from "../../utils/manageCookies";
 
 const Home = () => {
-  const { user, setUser, socket } = useContext(ThemeContext);
+  const { user, socket } = useContext(ThemeContext);
   const [msg, setMsg] = useState([]);
   const [rooms, setRooms] = useState([]);
 
@@ -50,7 +49,6 @@ const Home = () => {
   return (
     <div>
       {user?.username}
-      <button onClick={() => clearCookies(setUser)}>logout</button>
       {rooms.map((r) => (
         <div>
           <p>
