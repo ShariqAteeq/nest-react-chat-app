@@ -40,6 +40,9 @@ let UserController = class UserController {
             limit,
         });
     }
+    updateOne(id, user) {
+        return this.userService.updateUser(id, user);
+    }
     async getUser(id) {
         return await this.userService.findOne(Number(id));
     }
@@ -71,6 +74,15 @@ __decorate([
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
+__decorate([
+    common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
+    common_1.Put(':id'),
+    __param(0, common_1.Param('id', common_1.ParseIntPipe)),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, models_1.UpdateUserInput]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateOne", null);
 __decorate([
     common_1.Get('/get_one/:id'),
     __param(0, common_1.Param('id')),

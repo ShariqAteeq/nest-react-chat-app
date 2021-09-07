@@ -72,6 +72,16 @@ let UserService = class UserService {
             },
         });
     }
+    async updateUser(id, user) {
+        const userData = await this.userRepo.findOne({ id });
+        if (!userData) {
+            throw new common_1.HttpException('User not found!', common_1.HttpStatus.NOT_FOUND);
+        }
+        userData.username = user.username;
+        userData.aboutMe = user.aboutMe;
+        await this.userRepo.save(userData);
+        return userData;
+    }
 };
 UserService = __decorate([
     common_1.Injectable(),

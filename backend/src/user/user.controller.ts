@@ -3,7 +3,9 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -11,6 +13,7 @@ import {
   LoginResponse,
   LoginUserInput,
   SignUpUserInput,
+  UpdateUserInput,
   UserI,
 } from 'src/models';
 import { UserService } from './user.service';
@@ -50,6 +53,15 @@ export class UserController {
       limit,
       //   route: 'http://localhost:3000/api/user',
     });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':id')
+  updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() user: UpdateUserInput,
+  ): Promise<UserI> {
+    return this.userService.updateUser(id, user);
   }
 
   @Get('/get_one/:id')

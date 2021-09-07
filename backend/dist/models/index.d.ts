@@ -30,3 +30,7 @@ export declare class RoomI {
     createdAt?: Date;
     updatedAt?: Date;
 }
+export declare class UpdateUserInput {
+    username?: string;
+    aboutMe?: string;
+}

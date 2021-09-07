@@ -35,3 +35,8 @@ export class RoomI {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export class UpdateUserInput {
+  username?: string;
+  aboutMe?: string;
+}

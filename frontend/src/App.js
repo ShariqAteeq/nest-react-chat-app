@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <ThemeContext.Provider
-      value={{ user, setUser, isLoading, setToken, socket }}
+      value={{ user, setUser, isLoading, setToken, socket, token }}
     >
       {user && <NavBar />}
       <Routes />

@@ -1,7 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user';
-import { LoginUserInput, SignUpUserInput, UserI } from 'src/models';
+import {
+  LoginUserInput,
+  SignUpUserInput,
+  UpdateUserInput,
+  UserI,
+} from 'src/models';
 import { Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import {
@@ -78,5 +83,20 @@ export class UserService {
         username: Like(`%${username}%`),
       },
     });
+  }
+
+  async updateUser(id: number, user: UpdateUserInput): Promise<UserI> {
+    const userData = await this.userRepo.findOne({ id });
+
+    if (!userData) {
+      throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
+    }
+
+    userData.username = user.username;
+    userData.aboutMe = user.aboutMe;
+
+    await this.userRepo.save(userData);
+
+    return userData;
   }
 }

@@ -1,0 +1,59 @@
+.profile-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  margin-top: 1rem;
+}
+
+.form button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 1rem;
+  background-color: rebeccapurple;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 22px;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.form-group input {
+  width: 420px;
+  height: 30px;
+  padding: 20px;
+}
+
+.form-group textarea {
+  padding: 20px;
+}
+
+.image-uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-uploader label {
+  padding: 5px 15px;
+  background: rebeccapurple;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
+}
+
+.upload-inout {
+  display: none;
+}

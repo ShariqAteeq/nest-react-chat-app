@@ -1,5 +1,5 @@
 import { UserEntity } from 'src/entities/user';
-import { LoginUserInput, SignUpUserInput, UserI } from 'src/models';
+import { LoginUserInput, SignUpUserInput, UpdateUserInput, UserI } from 'src/models';
 import { Repository } from 'typeorm';
 import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { AuthService } from 'src/auth/services/auth.service';
@@ -12,4 +12,5 @@ export declare class UserService {
     findAll(options: IPaginationOptions): Promise<Pagination<UserI>>;
     findOne(id: number): Promise<UserI>;
     findAllByUsername(username: String): Promise<UserI[]>;
+    updateUser(id: number, user: UpdateUserInput): Promise<UserI>;
 }
