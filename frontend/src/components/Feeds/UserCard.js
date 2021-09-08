@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../utils/helper";
 import "./feed.css";
 
 const UserCard = ({ user }) => {
+  const { user: me } = useContext(ThemeContext);
+
   return (
     <div className="user-card">
       <img
@@ -12,7 +15,7 @@ const UserCard = ({ user }) => {
         className="user-img"
       />
       <h3 className="user-title">{user?.username}</h3>
-      <button className="user-msg">Message</button>
+      {user?.id !== me?.id && <button className="user-msg">Message</button>}
     </div>
   );
 };
