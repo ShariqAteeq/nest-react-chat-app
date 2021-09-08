@@ -31,14 +31,16 @@ const Profile = () => {
     };
 
     try {
-      const { data } = await axios.post(
-        `https://api.Cloudinary.com/v1_1/nestjs-chatapp/upload`,
-        imagePayload
-      );
-      payload = {
-        ...payload,
-        image: data.url,
-      };
+      if (user?.image !== image) {
+        const { data } = await axios.post(
+          `https://api.Cloudinary.com/v1_1/nestjs-chatapp/upload`,
+          imagePayload
+        );
+        payload = {
+          ...payload,
+          image: data.url,
+        };
+      }
       await axios.put(`/api/user/${user?.id}`, payload, config);
       setLoader(false);
       toast.success("Profile Updated!");
@@ -74,6 +76,7 @@ const Profile = () => {
                 value={values.name}
                 name="name"
                 onChange={handleChange}
+                className="acount-field"
               />
             </div>
 

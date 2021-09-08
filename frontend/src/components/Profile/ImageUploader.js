@@ -3,11 +3,16 @@ import "./profile.css";
 
 const ImageUploader = ({ name, handleChange, value }) => {
   const [image, setImage] = useState("");
-  console.log("value", typeof value);
   return (
     <div className="image-uploader">
       <img
-        src={value && typeof value !== "object" ? value : image ? image : "./assets/no-image.png"}
+        src={
+          value && typeof value !== "object"
+            ? value
+            : image
+            ? image
+            : "./assets/no-image.png"
+        }
         alt=".."
         width={150}
         height={150}
@@ -15,7 +20,6 @@ const ImageUploader = ({ name, handleChange, value }) => {
       />
       <input
         name={name}
-        // value={value}
         type="file"
         accept="image/*"
         name="image-upload"
@@ -29,7 +33,6 @@ const ImageUploader = ({ name, handleChange, value }) => {
             }
           };
           reader.readAsDataURL(e.target.files[0]);
-          console.log(e.target.files);
           handleChange({
             target: {
               name,

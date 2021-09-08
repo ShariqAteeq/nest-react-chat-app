@@ -1,0 +1,37 @@
+.user-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.user-card {
+  max-width: 200px;
+  padding: 20px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-title {
+  font-size: 18px;
+  padding: 8px 0;
+}
+
+.user-img {
+  border-radius: 50%;
+}
+.heading-feed {
+  text-align: center;
+  padding: 30px;
+}
+.user-msg {
+  background-color: rebeccapurple;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 10px;
+}
