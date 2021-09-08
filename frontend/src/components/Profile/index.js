@@ -14,9 +14,14 @@ const Profile = () => {
 
   const updateUserHandler = async (values) => {
     setLoader(true);
-    const { name, aboutMe } = values;
+    const { name, aboutMe, image } = values;
 
-    const payload = {
+    const imagePayload = new FormData();
+    imagePayload.append("file", image);
+    imagePayload.append("upload_preset", "nest-chat");
+    imagePayload.append("cloud_name", "nestjs-chatapp");
+
+    let payload = {
       username: name,
       aboutMe,
     };
@@ -26,6 +31,14 @@ const Profile = () => {
     };
 
     try {
+      const { data } = await axios.post(
+        `https://api.Cloudinary.com/v1_1/nestjs-chatapp/upload`,
+        imagePayload
+      );
+      payload = {
+        ...payload,
+        image: data.url,
+      };
       await axios.put(`/api/user/${user?.id}`, payload, config);
       setLoader(false);
       toast.success("Profile Updated!");
@@ -43,7 +56,7 @@ const Profile = () => {
         onSubmit={updateUserHandler}
         initialValues={{
           name: user?.username,
-          image: "",
+          image: user?.image || "",
           aboutMe: user?.aboutMe,
         }}
       >

@@ -14,6 +14,7 @@ export class UserI {
   username?: string;
   email: string;
   password?: string;
+  image?: string;
 }
 
 export class LoginResponse {
@@ -37,6 +38,7 @@ export class RoomI {
 }
 
 export class UpdateUserInput {
+  image?: string;
   username?: string;
   aboutMe?: string;
 }

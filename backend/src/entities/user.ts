@@ -11,6 +11,9 @@ export class UserEntity {
 
   @Column({ nullable: true })
   aboutMe: string;
+  
+  @Column({ nullable: true })
+  image: string;
 
   @Column({ unique: true })
   email: string;

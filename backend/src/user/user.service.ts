@@ -94,6 +94,7 @@ export class UserService {
 
     userData.username = user.username;
     userData.aboutMe = user.aboutMe;
+    userData.image = user.image;
 
     await this.userRepo.save(userData);
 

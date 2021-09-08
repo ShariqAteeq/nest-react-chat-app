@@ -12,6 +12,7 @@ export declare class UserI {
     username?: string;
     email: string;
     password?: string;
+    image?: string;
 }
 export declare class LoginResponse {
     access_token: string;
@@ -31,6 +32,7 @@ export declare class RoomI {
     updatedAt?: Date;
 }
 export declare class UpdateUserInput {
+    image?: string;
     username?: string;
     aboutMe?: string;
 }
