@@ -1,9 +1,37 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { ThemeContext } from "../../utils/helper";
 import "./feed.css";
 
 const UserCard = ({ user }) => {
-  const { user: me } = useContext(ThemeContext);
+  const { user: me, socket } = useContext(ThemeContext);
+
+  const history = useHistory();
+
+  const createRoom = async () => {
+    const reciever = {
+      id: user?.id,
+    };
+    const room = {
+      name: user?.username,
+      type: "PRIVATE",
+      users: [reciever],
+    };
+
+    try {
+      socket.emit("createRoom", room, function (err, responseData) {
+        if (err) {
+          console.log("err", err);
+        } else {
+          console.log("ss", responseData);
+          // Event was emitted successfully
+        }
+      });
+      history.push("/inbox");
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   return (
     <div className="user-card">
@@ -15,7 +43,11 @@ const UserCard = ({ user }) => {
         className="user-img"
       />
       <h3 className="user-title">{user?.username}</h3>
-      {user?.id !== me?.id && <button className="user-msg">Message</button>}
+      {user?.id !== me?.id && (
+        <button className="user-msg" onClick={createRoom}>
+          Message
+        </button>
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { ROOMTYPE } from 'src/models';
 import {
   Column,
   CreateDateColumn,
@@ -14,11 +15,11 @@ export class RoomEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
-
   @Column({ nullable: true })
-  description: string;
+  name: string;
+  
+  @Column()
+  type: ROOMTYPE;
 
   @ManyToMany(() => UserEntity)
   @JoinTable()

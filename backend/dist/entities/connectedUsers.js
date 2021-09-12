@@ -9,39 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoomEntity = void 0;
-const models_1 = require("../models");
+exports.ConnectedUserEntity = void 0;
 const typeorm_1 = require("typeorm");
 const user_1 = require("./user");
-let RoomEntity = class RoomEntity {
+let ConnectedUserEntity = class ConnectedUserEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], RoomEntity.prototype, "id", void 0);
-__decorate([
-    typeorm_1.Column({ nullable: true }),
-    __metadata("design:type", String)
-], RoomEntity.prototype, "name", void 0);
+], ConnectedUserEntity.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], RoomEntity.prototype, "type", void 0);
+], ConnectedUserEntity.prototype, "socketId", void 0);
 __decorate([
-    typeorm_1.ManyToMany(() => user_1.UserEntity),
-    typeorm_1.JoinTable(),
-    __metadata("design:type", Array)
-], RoomEntity.prototype, "users", void 0);
-__decorate([
-    typeorm_1.CreateDateColumn(),
-    __metadata("design:type", Date)
-], RoomEntity.prototype, "createdAt", void 0);
-__decorate([
-    typeorm_1.UpdateDateColumn(),
-    __metadata("design:type", Date)
-], RoomEntity.prototype, "updatedAt", void 0);
-RoomEntity = __decorate([
-    typeorm_1.Entity('room')
-], RoomEntity);
-exports.RoomEntity = RoomEntity;
-//# sourceMappingURL=room.js.map
+    typeorm_1.ManyToOne(() => user_1.UserEntity, (user) => user.connections),
+    typeorm_1.JoinColumn(),
+    __metadata("design:type", user_1.UserEntity)
+], ConnectedUserEntity.prototype, "user", void 0);
+ConnectedUserEntity = __decorate([
+    typeorm_1.Entity()
+], ConnectedUserEntity);
+exports.ConnectedUserEntity = ConnectedUserEntity;
+//# sourceMappingURL=connectedUsers.js.map

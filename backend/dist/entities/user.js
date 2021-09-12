@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
+const connectedUsers_1 = require("./connectedUsers");
 const room_1 = require("./room");
 let UserEntity = class UserEntity {
 };
@@ -38,6 +39,10 @@ __decorate([
     typeorm_1.ManyToMany(() => room_1.RoomEntity, (room) => room.users),
     __metadata("design:type", Array)
 ], UserEntity.prototype, "rooms", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => connectedUsers_1.ConnectedUserEntity, connection => connection.user),
+    __metadata("design:type", Array)
+], UserEntity.prototype, "connections", void 0);
 __decorate([
     typeorm_1.Column({ select: false }),
     __metadata("design:type", String)

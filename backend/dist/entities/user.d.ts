@@ -1,3 +1,4 @@
+import { ConnectedUserEntity } from './connectedUsers';
 import { RoomEntity } from './room';
 export declare class UserEntity {
     id: number;
@@ -6,5 +7,6 @@ export declare class UserEntity {
     image: string;
     email: string;
     rooms: RoomEntity[];
+    connections: ConnectedUserEntity[];
     password: string;
 }

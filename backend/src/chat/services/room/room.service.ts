@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+// import {
+//   IPaginationOptions,
+//   paginate,
+//   Pagination,
+// } from 'nestjs-typeorm-paginate';
 import { RoomEntity } from 'src/entities/room';
+import { UserEntity } from 'src/entities/user';
 import { RoomI, UserI } from 'src/models';
 import { Repository } from 'typeorm';
 
@@ -14,11 +15,12 @@ export class RoomService {
   constructor(
     @InjectRepository(RoomEntity)
     private readonly roomRepo: Repository<RoomEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepo: Repository<UserEntity>,
   ) {}
 
   async createRoom(room: RoomI, creator: UserI): Promise<RoomI> {
-    const newRoom = await this.addCreatorToRoom(room, creator);
-    console.log('newRoom', newRoom);
+    let newRoom = await this.addCreatorToRoom(room, creator);
     return this.roomRepo.save(newRoom);
   }
 

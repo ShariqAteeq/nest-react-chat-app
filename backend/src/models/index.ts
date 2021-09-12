@@ -31,14 +31,26 @@ export class ErrorResponse {
 export class RoomI {
   id?: number;
   name?: string;
+  type?: ROOMTYPE;
   description?: string;
   users?: UserI[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
+export class ConnectedUserI {
+  id?: number;
+  socketId?: string;
+  user?: UserI;
+}
+
 export class UpdateUserInput {
   image?: string;
   username?: string;
   aboutMe?: string;
+}
+
+export enum ROOMTYPE {
+  PRIVATE = 'PRIVATE',
+  GROUP = 'GROUP',
 }

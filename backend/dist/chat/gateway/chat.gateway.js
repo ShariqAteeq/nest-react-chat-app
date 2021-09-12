@@ -16,12 +16,14 @@ const socket_io_1 = require("socket.io");
 const auth_service_1 = require("../../auth/services/auth.service");
 const models_1 = require("../../models");
 const user_service_1 = require("../../user/user.service");
+const connectedUser_service_1 = require("../services/connectedUser/connectedUser.service");
 const room_service_1 = require("../services/room/room.service");
 let ChatGateway = class ChatGateway {
-    constructor(authService, userService, roomService) {
+    constructor(authService, userService, roomService, connectedUserService) {
         this.authService = authService;
         this.userService = userService;
         this.roomService = roomService;
+        this.connectedUserService = connectedUserService;
     }
     handleMessage(client, payload) {
         this.server.emit('message', 'test');
@@ -37,8 +39,11 @@ let ChatGateway = class ChatGateway {
             }
             else {
                 socket.data.user = user;
-                console.log("user", user);
+                console.log('user', user);
                 const rooms = await this.roomService.getRoomsForUsers(user.id);
+                console.log('rooms', rooms);
+                console.log('socket.id', socket.id);
+                await this.connectedUserService.create({ socketId: socket.id, user });
                 return this.server.to(socket.id).emit('rooms', rooms);
             }
         }
@@ -47,16 +52,25 @@ let ChatGateway = class ChatGateway {
             return this.disconnect(socket);
         }
     }
-    handleDisconnect(socket) {
+    async handleDisconnect(socket) {
         console.log('disconnect');
-        return this.disconnect(socket);
+        console.log("socket", socket);
+        await this.connectedUserService.deleteBySocketId(socket.id);
+        socket.disconnect();
     }
     disconnect(socket) {
         socket.emit('Error', new common_1.UnauthorizedException());
         socket.disconnect();
     }
     async onCreateRoom(socket, room) {
-        return this.roomService.createRoom(room, socket.data.user);
+        const createdRoom = await this.roomService.createRoom(room, socket.data.user);
+        for (const user of createdRoom.users) {
+            const connections = await this.connectedUserService.findByUser(user);
+            const rooms = await this.roomService.getRoomsForUsers(user.id);
+            for (const connection of connections) {
+                await this.server.to(connection.socketId).emit('rooms', rooms);
+            }
+        }
     }
 };
 __decorate([
@@ -81,7 +95,8 @@ ChatGateway = __decorate([
     }),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
         user_service_1.UserService,
-        room_service_1.RoomService])
+        room_service_1.RoomService,
+        connectedUser_service_1.ConnectedUserService])
 ], ChatGateway);
 exports.ChatGateway = ChatGateway;
 //# sourceMappingURL=chat.gateway.js.map

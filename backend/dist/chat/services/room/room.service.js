@@ -16,15 +16,16 @@ exports.RoomService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const room_1 = require("../../../entities/room");
+const user_1 = require("../../../entities/user");
 const models_1 = require("../../../models");
 const typeorm_2 = require("typeorm");
 let RoomService = class RoomService {
-    constructor(roomRepo) {
+    constructor(roomRepo, userRepo) {
         this.roomRepo = roomRepo;
+        this.userRepo = userRepo;
     }
     async createRoom(room, creator) {
-        const newRoom = await this.addCreatorToRoom(room, creator);
-        console.log('newRoom', newRoom);
+        let newRoom = await this.addCreatorToRoom(room, creator);
         return this.roomRepo.save(newRoom);
     }
     async getRoomsForUsers(userId) {
@@ -45,7 +46,9 @@ let RoomService = class RoomService {
 RoomService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(room_1.RoomEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, typeorm_1.InjectRepository(user_1.UserEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], RoomService);
 exports.RoomService = RoomService;
 //# sourceMappingURL=room.service.js.map

@@ -26,13 +26,23 @@ export declare class ErrorResponse {
 export declare class RoomI {
     id?: number;
     name?: string;
+    type?: ROOMTYPE;
     description?: string;
     users?: UserI[];
     createdAt?: Date;
     updatedAt?: Date;
 }
+export declare class ConnectedUserI {
+    id?: number;
+    socketId?: string;
+    user?: UserI;
+}
 export declare class UpdateUserInput {
     image?: string;
     username?: string;
     aboutMe?: string;
+}
+export declare enum ROOMTYPE {
+    PRIVATE = "PRIVATE",
+    GROUP = "GROUP"
 }
