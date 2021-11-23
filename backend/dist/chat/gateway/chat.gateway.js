@@ -36,6 +36,7 @@ let ChatGateway = class ChatGateway {
             const user = await this.userService.findOne((_c = decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.user) === null || _c === void 0 ? void 0 : _c.id);
             if (!user) {
                 return this.disconnect(socket);
+                console.log("running disconnect");
             }
             else {
                 socket.data.user = user;
@@ -54,13 +55,10 @@ let ChatGateway = class ChatGateway {
     }
     async handleDisconnect(socket) {
         console.log('disconnect');
-        console.log("socket", socket);
         await this.connectedUserService.deleteBySocketId(socket.id);
-        socket.disconnect();
     }
     disconnect(socket) {
         socket.emit('Error', new common_1.UnauthorizedException());
-        socket.disconnect();
     }
     async onCreateRoom(socket, room) {
         const createdRoom = await this.roomService.createRoom(room, socket.data.user);

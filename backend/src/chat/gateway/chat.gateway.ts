@@ -46,6 +46,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const user = await this.userService.findOne(decodedToken?.user?.id);
       if (!user) {
         return this.disconnect(socket);
+        console.log("running disconnect")
       } else {
         socket.data.user = user;
         console.log('user', user);
@@ -64,15 +65,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
   async handleDisconnect(socket: Socket) {
     console.log('disconnect');
-    console.log("socket", socket);
     await this.connectedUserService.deleteBySocketId(socket.id);
     // return this.disconnect(socket);
-    socket.disconnect();
+    // socket.disconnect();
   }
 
   private disconnect(socket: Socket) {
     socket.emit('Error', new UnauthorizedException());
-    socket.disconnect();
+    // socket.disconnect();
   }
 
   @SubscribeMessage('createRoom')

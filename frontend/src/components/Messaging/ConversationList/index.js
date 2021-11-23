@@ -7,19 +7,16 @@ import ToolbarButton from "../ToolbarButton";
 import "./ConversationList.css";
 import { ThemeContext } from "../../../utils/helper";
 
-export default function ConversationList() {
-  const { socket } = useContext(ThemeContext);
+export default function ConversationList({ conversations }) {
+  // const { socket } = useContext(ThemeContext);
 
-  const [conversations, setConversations] = useState([]);
-  useEffect(() => {
-    console.log("runn");
-    socket.on("rooms", (data) => setConversations(data));
-    // socket.on("rooms", (data) => console.log(data, "data"));
+  // const [conversations, setConversations] = useState([]);
+  // useEffect(() => {
+  //   console.log("runn");
+  //   socket.on("rooms", (data) => setConversations(data));
 
-  }, [setConversations]);
-
-  console.log("conversations", conversations);
-
+  // }, [setConversations]);
+console.log("con", conversations)
   return (
     <div className="conversation-list">
       <Toolbar

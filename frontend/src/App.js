@@ -7,6 +7,7 @@ import { ThemeContext } from "./utils/helper";
 import useFindUser from "./components/hooks/useFindUser";
 import { io } from "socket.io-client";
 import { NavBar } from "./components/Navbar";
+import { SocketProvider } from "./components/SocketProvider";
 
 axios.defaults.baseURL = "http://localhost:3000/";
 
@@ -15,21 +16,30 @@ const App = () => {
 
   const [socket, setSocket] = useState(null);
 
-  useEffect(() => {
-    if (user) {
-      const newSocket = io(`http://localhost:3000`, { auth: { token } });
-      setSocket(newSocket);
-      return () => newSocket.close();
-    }
-  }, [setSocket, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     const newSocket = io(`http://localhost:3000`, { auth: { token } });
+  //     newSocket.on("rooms", (data) => console.log(data));
+  //     setSocket(newSocket);
+  //     return () => newSocket.close();
+  //   }
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.on("rooms", (data) => console.log(data));
+  //   }
+  // }, [socket]);
 
   return (
     <ThemeContext.Provider
       value={{ user, setUser, isLoading, setToken, socket, token }}
     >
-      {user && <NavBar />}
-      <Routes />
-      <Toaster />
+      <SocketProvider id = {token} >
+        {user && <NavBar />}
+        <Routes />
+        <Toaster />
+      </SocketProvider>
     </ThemeContext.Provider>
   );
 };
